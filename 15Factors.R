@@ -166,5 +166,42 @@ levels(rincome_summary$rincome)
 ##There was the parameter "after=" missing which tells the function where to put it.
 
 
+#15.5.1 Exercises
 
+#1.How have the proportions of people identifying as Democrat, Republican, and Independent changed over time?
 
+##Recoding factor for prtyid
+gss_cat9<-gss_cat %>%
+  mutate(partyid = fct_collapse(partyid,
+                                other = c("No answer", "Don't know", "Other party"),
+                                rep = c("Strong republican", "Not str republican"),
+                                ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+                                dem = c("Not str democrat", "Strong democrat")
+  )) 
+
+##Visualization change over time
+gss_cat9%>%
+  group_by(year, partyid)%>%
+  summarise(n = n())%>%
+  ggplot(aes(fill = partyid, y = n, x = year))+
+  geom_bar(stat="identity", position="fill" )
+
+#2.How could you collapse rincome into a small set of categories?
+
+rincome_list<-gss_cat%>%
+  count(rincome)
+rincome_list <- rincome_list$rincome
+rincome_list
+gss_cat10<-gss_cat %>%
+  mutate(rincome = fct_collapse(rincome,
+                              no_data= c("No answer", "Don't know", "Refused", "Not applicable"),
+                              zero_10k= c("Lt $1000", "$1000 to 2999", "$3000 to 3999", 
+                                          "$4000 to 4999","$5000 to 5999","$6000 to 6999",
+                                          "$7000 to 7999", "$8000 to 9999"),
+                              k10_k25 = c("$10000 - 14999", "$15000 - 19999", "$20000 - 24999"),
+                              k25_more = "$25000 or more"
+  ))
+
+ggplot(gss_cat10, aes(rincome)) +
+  geom_bar()+ 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
