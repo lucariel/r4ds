@@ -128,3 +128,30 @@ flights_weeks%>%
   ggplot(aes(x = sched_dep_week, y = dep_delay))+
   geom_col()
 ##You should go on saturday
+
+#6.What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
+ggplot(diamonds, aes(x = carat %% 1 * 100)) +
+  geom_histogram(binwidth = 1)
+ggplot(flights_dt, aes(x = minute(sched_dep_time))) +
+  geom_histogram(binwidth = 1)
+##In both `carat` and `sched_dep_time` there are abnormally large numbers of values are at nice "human" numbers. In `sched_dep_time` it is at 00 and 30 minutes. In carats, it is at 0, 1/3, 1/2, 2/3,
+
+
+
+#7.Confirm my hypothesis that the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early. Hint: create a binary variable that tells you whether or not a flight was delayed.
+
+flights_dt %>% 
+  mutate(minute = minute(dep_time),
+         late = case_when(dep_delay > 1 ~ 1,
+                          dep_delay <= 0 ~ 0)
+         ) %>% 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    avg_late = mean(late, na.rm = T),
+    n = n()) %>% 
+  ggplot() +
+  geom_point(aes(minute, avg_delay,color = avg_late))
+
+##The darkest the blue, the less late flights there were. And we can see that the darkest are in minutes 30 and 50
+
