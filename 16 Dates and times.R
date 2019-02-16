@@ -155,3 +155,42 @@ flights_dt %>%
 
 ##The darkest the blue, the less late flights there were. And we can see that the darkest are in minutes 30 and 50
 
+
+
+#16.4.5 Exercises
+#1.Why is there months() but no dmonths()?
+##Because each month has diferent lenght
+dmonths(1)
+
+#2.Explain days(overnight * 1) to someone who has just started learning R. How does it work?
+flights_dt <- flights_dt %>% 
+  mutate(
+    overnight = arr_time < dep_time,
+    arr_time = arr_time + days(overnight * 1),
+    sched_arr_time = sched_arr_time + days(overnight * 1)
+  )
+
+##Overnight is a variables which is a column for True or False values according to the 
+##result of the comparation between arr y dep times. You can do aritmetics with T or F values, and 
+##they are treated as 1 and 0 respectively, so when you do "overnight*1"its going to be 1*1 for True values and 0*1 for False
+##which acts like a filter
+
+#3.Create a vector of dates giving the first day of every month in 2015. Create a vector of dates giving the first day of every month in the current year.
+
+ymd("2015-01-01") + months(0:11)
+
+floor_date(today(), unit = "year") + months(0:11)
+
+
+#4.Write a function that given your birthday (as a date), returns how old you are in years.
+
+age_calc<-function(x){
+  as.numeric((today()-x)/365)
+} 
+age_calc(ymd(19920624))
+
+
+#5.Why can’t (today() %--% (today() + years(1)) / months(1) work?
+(today() %--% (today() + years(1)) / months(1))
+  
+  ##But it does... it returns how many months are between today and a year from now
