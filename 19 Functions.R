@@ -171,3 +171,33 @@ switch(x,
        "s"  ##Unnamed: returned because of no-match scenario
 )
 # In the case of no match, if there is a unnamed element of ... its value is returned.
+
+
+#19.5.5 Exercises
+
+#1.What does commas(letters, collapse = "-") do? Why?
+##It is a specific case for str_c, in which set the argument to default values, to concatenate the str with commaas
+
+#2.It’d be nice if you could supply multiple characters to the pad argument, e.g. rule("Title", pad = "-+"). Why doesn’t this currently work? How could you fix it?
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+##It doesn't work because it considers it's one char long so if you put two, it would duplicate the padding
+##A fixed version would be
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- (getOption("width") - nchar(title) - 5)/nchar(pad) ##This is the fix- by dividing by nchar of the pad the function works 
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+
+rule("Title", pad = "-+-")
+#3.What does the trim argument to mean() do? When might you use it?
+##trim: the fraction (0 to 0.5) of observations to be trimmed from each end of x before the mean is computed. Values of trim outside that range are taken as the nearest endpoint.
+## you might use to remove outliers
+
+#4.The default value for the method argument to cor() is c("pearson", "kendall", "spearman"). What does that mean? What value is used by default?
+?cor()
+
+##They are different methods to calculate a corralation Spearman's and Kendall's mesure rank's correlation. An Pearsons is the default, which assesses linear relationship between two variables.
