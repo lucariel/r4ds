@@ -56,3 +56,62 @@ double_to_int4(a)
 #5.What functions from the readr package allow you to turn a string into logical, integer, and double vector?
 ##parse_logical(),parse_integer(), parse_number()
 
+
+
+#20.4.6 Exercises
+
+##Atomic vectors are linear vectors of a single primitive type
+
+#1.What does mean(is.na(x)) tell you about a vector x? 
+## the proportion of NA values in a vector
+#What about sum(!is.finite(x))?
+## the quantity of non-numeric values
+
+#2.Carefully read the documentation of is.vector(). What does it actually test for? 
+##is.vector returns TRUE if x is a vector of the specified mode having no attributes  
+##other than names. It returns FALSE otherwise. Making list objects, vectors Unlike is.atomic()
+
+##The atomic modes are "logical", "integer", "numeric" (synonym "double"),
+##"complex", "character" and "raw".
+
+
+#Why does is.atomic() not agree with the definition of atomic vectors above?
+?is.atomic()
+##is.atomic is true for the atomic types ("logical", "integer", "numeric", 
+##"complex", "character" and "raw") and NULL.
+##The definitions dont agree because is.atomic includes NULL as atomic types
+
+#3.Compare and contrast setNames() with purrr::set_names().
+##The main difference between both is that setNames names objects, and set_names() names vectors
+
+?setNames()
+library(purrr)
+?set_names()
+#4.Create functions that take a vector as input and returns:
+  #The last value. Should you use [ or [[?
+lastValue<-function(x){
+  if(is.vector(x)){
+    return(x[length(x)])
+  }
+}
+
+  #The elements at even numbered positions.
+evenPositions<-function(x){
+  e<-c()
+  for(i in seq(from = 2, to =length(x), by = 2)){
+    e<-c(e, x[i])
+  }
+  e
+}
+  #Every element except the last value.
+allButLast<-function(x){
+  x[-length(x)]
+}
+  #Only even numbers (and no missing values).
+                                      
+evenNumbers<-function(x){
+  x[!as.logical(x%%2)]
+}
+
+#5.Why is x[-which(x > 0)] not the same as x[x <= 0]?
+##The first option includes NaN. and which() returns indices, while x<=0 returns logical vector
