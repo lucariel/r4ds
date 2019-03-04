@@ -115,3 +115,42 @@ evenNumbers<-function(x){
 
 #5.Why is x[-which(x > 0)] not the same as x[x <= 0]?
 ##The first option includes NaN. and which() returns indices, while x<=0 returns logical vector
+
+
+#6.What happens when you subset with a positive integer that’s bigger than the length of the vector? 
+x[100] ##Returns NA
+#What happens when you subset with a name that doesn’t exist? 
+x<-c(a=1, b=2)
+x["j"]
+
+
+#20.5.4 Exercises
+
+#1.Draw the following lists as nested sets:
+  
+list(a, b, list(c, d), list(e, f))
+
+#-----------#
+#[[A]]-[[B]]
+#-[[C],[D]]-#
+#-[[E],[F]]-#
+list(list(list(list(list(list(a))))))
+#[[[[[[[a]]]]]]]
+
+
+#2.What happens if you subset a tibble as if you’re subsetting a list? What are the key differences between a list and a tibble?
+a<-as.tibble(cbind(c(1,2,3), c(1,2,4)))
+a$V1
+a[[1]][[2]]
+##The subsetting of the tibble works fine. The difference is that a tibble is a list but a list is no necessary to be a tibble
+########The difference between a tibble and a list is that all the elements of a data frame must be vectors with the same length
+
+
+#20.7.4 Exercises
+
+#1.aWhat does hms::hms(3600) return? 
+hms::hms(3600) ##prints 01:00:00
+#1.b How does it print? ##Is the number of hours in 3600 seconds
+#1.c What primitive type is the augmented vector built on top of? ## numeric
+#1.d What attributes does it use?
+attributes(hms::hms(3600))
