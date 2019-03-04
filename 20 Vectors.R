@@ -154,3 +154,12 @@ hms::hms(3600) ##prints 01:00:00
 #1.c What primitive type is the augmented vector built on top of? ## numeric
 #1.d What attributes does it use?
 attributes(hms::hms(3600))
+
+
+#2.Try and make a tibble that has columns with different lengths. What happens?
+as.tibble(c(1,2,3), c(1,2))
+##Warning message:
+##In as.data.frame.numeric(value, stringsAsFactors = FALSE, ...) :
+##  'row.names' is not a character vector of length 3 -- omitting it. Will be an error!#
+
+##Vectors that are not compatible are omitted
