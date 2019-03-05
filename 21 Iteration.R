@@ -16,6 +16,18 @@ for(i in 1:ncol(nycflights13::flights)){
 types
 
 #c)Compute the number of unique values in each column of iris.
-
-#Generate 10 random normals for each of μ=−10, 0, 10, and 100.
-#Think about the output, sequence, and body before you start writing the loop.
+unique<-iris[1,]
+for(i in 1:ncol(iris)){
+  unique[i]<-length(unique(iris[,i]))
+}
+unique
+#d)Generate 10 random normals for each of μ=−10, 0, 10, and 100.
+# number to draw
+n <- 10
+# values of the mean
+mu <- c(-10, 0, 10, 100)
+normals <- vector("list", length(mu))
+for (i in seq_along(normals)) {
+  normals[[i]] <- rnorm(n, mean = mu[i])
+}
+normals
