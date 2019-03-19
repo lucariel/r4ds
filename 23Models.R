@@ -1,6 +1,7 @@
 #23 Model basics
 library(tidyverse)
 library(modelr)
+library(ggplot2)
 options(na.action = na.warn)
 
 
@@ -182,11 +183,12 @@ all(sim3t$d==sim3t_mod$x1d)
 
 mod1_4 <- lm(y ~ x1 + x2, data = sim4)
 mod2_4 <- lm(y ~ x1 * x2, data = sim4)
-
+sim4
+library(modelr)
 
 sim4_mods <- sim4 %>% 
-  gather_residuals(mod1, mod2)
+  gather_residuals(mod1_4, mod2_4)
 
-ggplot(sim4, aes(x1, resid, colour = x2)) + 
-  geom_point() + 
-  facet_grid(model ~ x2)
+ggplot(sim4_mods, aes(x = resid, colour = model)) +
+  geom_freqpoly(binwidth = 0.5) +
+  geom_rug()
